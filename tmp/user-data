@@ -1,0 +1,5 @@
+#cloud-config
+password: aB3@.K.V!
+chpasswd: { expire: False }
+ssh_pwauth: True
+hostname: bih-sdwan-ibm-vcg

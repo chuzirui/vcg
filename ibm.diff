@@ -1,0 +1,86 @@
+--- Template_VCG.xml	2017-12-12 01:55:07.000000000 -0600
++++ vcg.xml	2018-01-27 23:44:16.200081390 -0600
+@@ -1,23 +1,23 @@
+ <domain type='kvm' id='1'>
+-  <name>Template-vcg</name>
+-  <memory unit='KiB'>32777216</memory>
+-  <currentMemory unit='KiB'>32777216</currentMemory>
+-  <vcpu placement='static' cpuset='0-8'>8</vcpu>
++  <name>cloud-vcg</name>
++  <memory unit='KiB'>16388608</memory>
++  <currentMemory unit='KiB'>16388608</currentMemory>
++  <vcpu placement='static' cpuset='0-7'>8</vcpu>
+   <cputune>
+-    <vcpupin vcpu='0' cpuset='0'/>
+-    <vcpupin vcpu='1' cpuset='24'/>
+-    <vcpupin vcpu='2' cpuset='1'/>
+-    <vcpupin vcpu='3' cpuset='25'/>
+-    <vcpupin vcpu='4' cpuset='2'/>
+-    <vcpupin vcpu='5' cpuset='26'/>
+-    <vcpupin vcpu='6' cpuset='3'/>
+-    <vcpupin vcpu='7' cpuset='27'/>
++    <vcpupin vcpu='0' cpuset='0-7'/>
++    <vcpupin vcpu='1' cpuset='0-7'/>
++    <vcpupin vcpu='2' cpuset='0-7'/>
++    <vcpupin vcpu='3' cpuset='0-7'/>
++    <vcpupin vcpu='4' cpuset='0-7'/>
++    <vcpupin vcpu='5' cpuset='0-7'/>
++    <vcpupin vcpu='6' cpuset='0-7'/>
++    <vcpupin vcpu='7' cpuset='0-7'/>
+   </cputune>
+   <resource>
+     <partition>/machine</partition>
+   </resource>
+   <os>
+-    <type arch='x86_64' machine='pc-i440fx-rhel7.0.0'>hvm</type>
++    <type arch='x86_64' machine='pc'>hvm</type>
+     <boot dev='hd'/>
+   </os>
+   <features>
+@@ -31,10 +31,10 @@
+   <on_reboot>restart</on_reboot>
+   <on_crash>restart</on_crash>
+   <devices>
+-    <emulator>/usr/libexec/qemu-kvm</emulator>
++    <emulator>/usr/bin/qemu-kvm</emulator>
+     <disk type='file' device='disk'>
+       <driver name='qemu' type='qcow2'/>
+-      <source file='/images/Template_vcg_root.img'/>
++      <source file='/images/velocloud-vcg-2.4.0-R24-20170428-GA.qcow2'/>
+       <backingStore/>
+       <target dev='hda' bus='ide'/>
+       <alias name='ide0-0-0'/>
+@@ -42,7 +42,7 @@
+     </disk>
+     <disk type='file' device='cdrom'>
+       <driver name='qemu' type='raw'/>
+-      <source file='/images/Template-vcg.iso'/>
++      <source file='/images/vcg-basic-info.iso'/>
+       <target dev='sdb' bus='sata'/>
+       <readonly/>
+       <alias name='sata1-0-0'/>
+@@ -68,14 +68,14 @@
+       <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x0'/>
+     </controller>
+     <interface type='direct'>
+-      <source dev='p4p1' mode='bridge'/>
++      <source dev='eth0' mode='bridge'/>
+       <target dev='macvtap0'/>
+       <model type='virtio'/>
+       <alias name='net0'/>
+       <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
+     </interface>
+     <interface type='direct'>
+-      <source dev='p4p2' mode='bridge'/>
++      <source dev='eth1' mode='bridge'/>
+       <target dev='macvtap1'/>
+       <model type='virtio'/>
+       <alias name='net1'/>
+@@ -101,7 +101,6 @@
+       <alias name='balloon0'/>
+     </memballoon>
+   </devices>
+-  <seclabel type='none' model='selinux'/>
+   <seclabel type='dynamic' model='dac' relabel='yes'>
+     <label>+107:+107</label>
+     <imagelabel>+107:+107</imagelabel>
